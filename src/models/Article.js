@@ -18,8 +18,4 @@ Article.prototype.addArticle = function (data) {
   });
 };
 
-
-//adascsccccccccccc
-
-
 module.exports = Article
