@@ -18,6 +18,11 @@ Article.prototype.addArticle = function (data) {
   });
 };
 //test
+<<<<<<< HEAD
 //asdasd
 //asdasdasdasdasdasdasdasda
+=======
+//asdasdas
+//asdasdsadadsads
+>>>>>>> test
 module.exports = Article
