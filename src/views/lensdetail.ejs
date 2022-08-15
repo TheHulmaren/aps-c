@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Aps-c</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+  <%- include('nav.ejs', {current: 'index'}) %>
+  <div class="container-md">
+    <div class="row w-75 mx-auto">
+      <div class="col-9 p-0">
+        <div class="d-flex flex-column m-2  p-2  bg-light border">
+          <h5><%= lens.name %> </h5>
+          <p><span class="text-secondary">Announced in </span>2022 2 2 | <%= lens.maker %> </p>
+          <div class="row w-100 m-0 p-0">
+            <div class="col-8 p-0">
+              <img src="/img/sample.png" class="img-fluid">
+            </div>
+            <div class="col-4 p-0">
+              <p class="p-0 ms-1 mb-0 text-secondary">Buy</p>
+              <div class="d-flex flex-column m-1 p-1 border">
+                Danawa price here
+              </div>
+              <p class="p-0 ms-1 mb-0 text-secondary">User reviews</p>
+              <div class="d-flex flex-column m-1 p-1 border">
+                User reviews here adsa sdsad asd asdasd sad asd
+              </div>
+              <p class="p-0 ms-1 mb-0 text-secondary">Response</p>
+              <div class="d-flex flex-column m-1 p-1 border">
+                User likes or hates here adsa sdsad asd asdasd sad asd
+              </div>
+            </div>
+          </div>
+          <h6>Description</h6>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+            dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+            sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
+            magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
+            ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+            nulla pariatur</p>
+          <h6>Specs</h6>
+          <div class="d-block m-1 p-1 mb-3 border">
+            <p class="m-0 border-bottom">asdasdasd</p>
+            <p class="m-0 border-bottom">asdasdasd</p>
+            <p class="m-0 border-bottom">asdasdasd</p>
+            <p class="m-0">asdasdasd</p>
+          </div>
+          <h6>User expreriences</h6>
+          <div class="d-flex flex-column">
+            <form>
+              <div class="d-flex flex-row">
+                <% if(user){ %>
+                <p class="m-1 text-dark">ID: <%= user.id %></p>
+                <% } else { %>
+                <p class="m-1 text-secondary">ID: <%='Anonymous'%></p>
+                <% } %>
+              </div>
+              <div class="mb-3 d-flex flex-row">
+                <input type="text" class="form-control" placeholder="Enter text here.." id="articleInput">
+                <button id="articleSubmit" type="reset" class="btn btn-primary ms-2">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="d-flex flex-column" id="articlesSection">
+            <% for(var i = 0; i<articles.length; i++){ %>
+            <div>
+              <div>
+                <p>ID: <%= articles[i].poster %> | <span><%= articles[i].date %> </span></p>
+              </div>
+              <div>
+                <p><%= articles[i].text %></p>
+              </div>
+            </div>
+            <% } %>
+          </div>
+          <form method="GET" action="/lens/<%= lens._id.toString() %>">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination" id="pageButtonsSection">
+                <% if(Math.floor((pageIndex-1)/buttonsInLine)>0){ %>
+                <li class="page-item"><button value="<%= Math.floor((pageIndex-1) / buttonsInLine) * buttonsInLine%>"
+                    type="submit" name="pageIndex" class="page-link">Previous</button></li>
+                <% } %>
+                <% for(var i = 0; i< displayedButtonsCount; i++){ %>
+                <% var buttonNum = buttonStart + i + 1 %>
+                <% if(buttonNum == pageIndex){ %>
+                <li class="page-item"><button value="<%= buttonNum %>" type="submit" name="pageIndex"
+                    class="page-link bg-primary text-white"><%= buttonNum %></button></li>
+                <% } else{ %>
+                <li class="page-item"><button value="<%= buttonNum %>" type="submit" name="pageIndex"
+                    class="page-link"><%= buttonNum %></button></li>
+                <% } %>
+                <% } %>
+                <li class="page-item"><button value="<%= Math.ceil(pageIndex / buttonsInLine) * buttonsInLine + 1 %>"
+                    type="submit" name="pageIndex" class="page-link">Next</button></li>
+              </ul>
+            </nav>
+          </form>
+        </div>
+      </div>
+      <div class="col-3 p-0">
+        <div class="d-flex flex-column m-2 p-2  bg-light border">
+          <form>
+            <input type="file" class="form-control-file" name="uploaded_file" id="imageInput" />
+            <input type="text" id="sampleDescription" />
+            <button class="btn" id="imageSubmit">Submit</button>
+          </form>
+          <% for(var i = 0; i<samplephotos.length; i++){ %>
+            <div class="m-1">
+              <img src="<%= samplephotos[i].url %>" class="img-fluid"/>
+            </div>
+            <% } %>  
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  $(document).on('click', '#imageSubmit', (e) => {
+    var lid = "<%= lens._id.toString() %>"
+    var description = $('#sampleDescription').val()
+
+    // tip: must use FormData type when sending file through multer
+    var fd = new FormData();
+    fd.append('uploaded_file', $('#imageInput').prop('files')[0])
+    fd.append('lid', lid)
+    fd.append('description', description)
+
+    $.ajax({
+      method: 'POST',
+      url: '/add/samplephoto',
+      enctype: 'multipart/form-data',
+      processData: false,
+      contentType: false,
+      data: fd
+    }).done((result) => {
+      console.log(result.message)
+    }).fail((result) => {
+      console.log(result.message)
+    })
+  })
+
+  $(document).on('click', '#articleSubmit', (e) => {
+    var lid = "<%= lens._id.toString() %>"
+    var text = $('#articleInput').val()
+
+    $.ajax({
+      method: 'POST',
+      url: '/add/article',
+      data: { lid: lid, text: text }
+    }).done((result) => {
+      console.log(result.message)
+
+      var d1 = $('<div></div>')
+      var t1 = $('<p></p>').html(`ID: ${"<%= user?.id ?? 'Anonymous'%>"} | `).append($('<span></span>').html(new Date().toString()))
+      d1.append(t1)
+
+      var d2 = $('<div></div>')
+      var t2 = $('<p></p>').html(text)
+      d2.append(t2)
+
+      var d = $('<div></div>').append(d1, d2)
+
+      var s = $('#articlesSection').prepend(d)
+      s.children().last().remove()
+    }).fail((result) => {
+      console.log(result.message)
+    })
+  })
+</script>
+
+
+</html>
