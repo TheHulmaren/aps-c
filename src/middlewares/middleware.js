@@ -184,14 +184,7 @@ function sideBarSamplePhotos(req, res, next) {
   samplephoto
     .findSamplePhotosByLens(req.params.id)
     .then((result) => {
-      var samplephotos = [];
-      result.forEach((e) => {
-        var url = getPresignedUrl(
-          e.Key,
-          parseInt(process.env.AWS_PRESIGNED_URL_EXPIRATION)
-        );
-        samplephotos.push({ ...e, url: url });
-      });
+      var samplephotos = samplephoto.getPresignedUrls(result);
 
       res.locals.samplephotos = samplephotos;
       next();
@@ -229,6 +222,36 @@ function addNewSamplePhoto(req, res, next) {
     });
 }
 
+function getLensSamplePhotos(req, res, next) {
+  var samplephoto = new SamplePhoto();
+
+  samplephoto
+    .findSamplePhotosByLens(req.params.id)
+    .then((result) => {
+      var samplephotos = samplephoto.getPresignedUrls(result);
+
+      res.locals.samplephotos = samplephotos;
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send({message: 'Failed to load sample photos for the lens'})
+    });
+}
+
+function samplePhotoSlide(req, res, next){
+  var samplephoto = new SamplePhoto()
+
+  samplephoto.getSamplePhotoById(req.params.pid)
+  .then((result)=>{
+    var resultWithUrl = samplephoto.getPresignedUrls([result])[0]
+
+    res.locals.samplephoto = resultWithUrl
+    next()
+  }).catch((err)=>{
+    res.status(500).send({message: 'Failed to load sample photo slide'})
+  })
+}
+
 module.exports = {
   isLoggedIn,
   queryLenses,
@@ -240,4 +263,6 @@ module.exports = {
   addNewLens,
   addNewArticle,
   addNewSamplePhoto,
+  getLensSamplePhotos,
+  samplePhotoSlide,
 };

@@ -114,7 +114,10 @@
           </form>
           <% for(var i = 0; i<samplephotos.length; i++){ %>
             <div class="m-1">
-              <img src="<%= samplephotos[i].url %>" class="img-fluid"/>
+              <a href="/lens/<%= lens._id.toString() %>/samplephotos">
+
+                <img src="<%= samplephotos[i].url %>" class="img-fluid"/>
+              </a>
             </div>
             <% } %>  
         </div>
