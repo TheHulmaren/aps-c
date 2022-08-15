@@ -234,22 +234,44 @@ function getLensSamplePhotos(req, res, next) {
       next();
     })
     .catch((err) => {
-      res.status(500).send({message: 'Failed to load sample photos for the lens'})
+      res
+        .status(500)
+        .send({ message: "Failed to load sample photos for the lens" });
     });
 }
 
-function samplePhotoSlide(req, res, next){
-  var samplephoto = new SamplePhoto()
+function samplePhotoSlide(req, res, next) {
+  var samplephoto = new SamplePhoto();
+  var lens = new Lens();
 
-  samplephoto.getSamplePhotoById(req.params.pid)
-  .then((result)=>{
-    var resultWithUrl = samplephoto.getPresignedUrls([result])[0]
+  samplephoto
+    .getSamplePhotoById(req.params.pid)
+    .then((result) => {
+      var resultWithUrl = samplephoto.getPresignedUrls([result])[0];
 
-    res.locals.samplephoto = resultWithUrl
-    next()
-  }).catch((err)=>{
-    res.status(500).send({message: 'Failed to load sample photo slide'})
-  })
+      res.locals.samplephoto = resultWithUrl;
+
+      return lens.getLensByLid(result.lens.toString());
+    })
+    .then((result) => {
+      res.locals.lens = result;
+
+      return samplephoto.findNearbyPhotosById(
+        req.params.pid,
+        result._id.toString(),
+        2
+      );
+    })
+    .then((result) => {
+      var photosWithUrl = samplephoto.getPresignedUrls(result);
+      res.locals.nearby = photosWithUrl;
+
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ message: "Failed to load sample photo slide" });
+    });
 }
 
 module.exports = {

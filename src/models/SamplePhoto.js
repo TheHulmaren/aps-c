@@ -68,6 +68,46 @@ SamplePhoto.prototype.findSamplePhotosByLens = function (strLid) {
   });
 };
 
+SamplePhoto.prototype.findNearbyPhotosById = function (strPid, strLid, range) {
+  var pid = ObjectId(strPid);
+  var lid = ObjectId(strLid);
+
+  return new Promise((resolve, reject) => {
+    getDb()
+      .collection("samplephoto")
+      .find({ _id: { $gte: pid }, lens: lid })
+      .sort({ _id: 1 })
+      .limit(range + 1)
+      .toArray((err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        var backPart = result;
+
+        getDb()
+          .collection("samplephoto")
+          .find({ _id: { $lt: pid }, lens: lid })
+          .sort({ _id: -1 })
+          .limit(range)
+          .sort({ _id: 1 })
+          .toArray((err, result) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+
+            var frontPart = result;
+
+            var photos = [...frontPart, ...backPart];
+
+            resolve(photos);
+          });
+      });
+  });
+};
+
 SamplePhoto.prototype.getPresignedUrls = function (samplephotos) {
   var result = [];
   samplephotos.forEach((e) => {
