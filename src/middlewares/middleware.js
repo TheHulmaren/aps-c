@@ -1,6 +1,6 @@
-const { getDb, ObjectId } = require("../db/db");
+const { getDb, ObjectId } = require("../lib/db/db");
 const Lens = require("../models/Lens");
-const { getPresignedUrl } = require("../bucket/bucket");
+const { getPresignedUrl } = require("../lib/bucket/bucket");
 const SamplePhoto = require("../models/Samplephoto");
 const Article = require("../models/Article");
 

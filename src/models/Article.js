@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { getDb } = require("../db/db");
+const { getDb } = require("../lib/db/db");
 
 function Article() {}
 

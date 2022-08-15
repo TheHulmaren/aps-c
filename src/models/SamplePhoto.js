@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
-const { uploadFileStream } = require("../bucket/bucket");
-const { getDb } = require("../db/db");
+const { uploadFileStream } = require("../lib/bucket/bucket");
+const { getDb } = require("../lib/db/db");
 
 function SamplePhoto() {}
 
@@ -24,7 +24,6 @@ SamplePhoto.prototype.uploadSamplePhoto = function (fileStream) {
   var name = "samplephoto-" + new Date().toISOString() + ".jpeg";
 
   var key = folder + "/" + name;
-
   return new Promise((resolve, reject) => {
     uploadFileStream(fileStream, key)
       .then((result) => {
