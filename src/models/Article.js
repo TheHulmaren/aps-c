@@ -17,6 +17,7 @@ Article.prototype.addArticle = function (data) {
       });
   });
 };
+//test
 
 //haha
 
