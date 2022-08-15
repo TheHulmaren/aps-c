@@ -1,5 +1,5 @@
 const express = require("express");
-const { getPassport } = require("../auth/authentication");
+const { getPassport } = require("../lib/auth/authentication");
 const router = express.Router();
 
 router.get("/login", (req, res) => {
