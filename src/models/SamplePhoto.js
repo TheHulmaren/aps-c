@@ -20,7 +20,7 @@ SamplePhoto.prototype.addSamplePhotoInfo = function (data) {
 };
 
 SamplePhoto.prototype.uploadSamplePhoto = function (fileStream) {
-  var folder = "samplephotos";
+  var folder = "samplephotos"
   var name = "samplephoto-" + new Date().toISOString() + ".jpeg";
 
   var key = folder + "/" + name;
