@@ -17,6 +17,6 @@ Article.prototype.addArticle = function (data) {
       });
   });
 };
-//main
+//test
 
 module.exports = Article
