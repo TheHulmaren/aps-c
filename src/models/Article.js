@@ -18,4 +18,6 @@ Article.prototype.addArticle = function (data) {
   });
 };
 
+//haha
+
 module.exports = Article
