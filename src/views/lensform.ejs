@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Aps-c</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+  <%- include('nav.ejs', {current: 'index'}) %>
+  <div class="container-md">
+    <div class="d-flex flex-column">
+      <div>
+        <p class="ms-2 mb-1 mt-2">Product Name</p>
+        <div class="input-group m-2 mb-0">
+          <input id="nameInput" type="text" class="form-control" placeholder="Name" aria-label="name"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div>
+        <p class="ms-2 mb-1 mt-2">Maker</p>
+        <select id="makerSelect" form="queryForm" class="form-select m-2 mb-0" aria-label="Default select example"
+          name="maker">
+          <option value="Sony" selected>Sony</option>
+          <option value="Canon">Canon</option>
+          <option value="Fuji">Fuji</option>
+          <option value="Samyang">Samyang</option>
+          <option value="Viltrox">Viltrox</option>
+          <option value="TTArtisan">TTArtisan</option>
+          <option value="Tamron">Tamron</option>
+          <option value="Sigma">Sigma</option>
+        </select>
+      </div>
+      <div>
+        <p class="ms-2 mb-1 mt-2">Aperture <span class="text-secondary">(if aperture is fixed, set both values
+            equal)</span></p>
+        <div class="input-group  m-2 mb-0">
+          <span class="input-group-text">from</span>
+          <input id="apertureMinInput" form="queryForm" type="text" class="form-control aperture-min" placeholder="min"
+            name="apertureMin">
+          <span class="input-group-text">to</span>
+          <input id="apertureMaxInput" form="queryForm" type="text" class="form-control aperture-max" placeholder="max"
+            name="apertureMax">
+        </div>
+      </div>
+      <div>
+        <p class="ms-2 mb-1 mt-2">Focus Range <span class="text-secondary">(if focus range is fixed, set both values
+            equal)</span></p>
+        <div class="input-group  m-2 mb-0">
+          <span class="input-group-text">from</span>
+          <input id="focusMinInput" form="queryForm" type="text" class="form-control aperture-min" placeholder="min"
+            name="focusMin">
+          <span class="input-group-text">to</span>
+          <input id="focusMaxInput" form="queryForm" type="text" class="form-control aperture-max" placeholder="max"
+            name="focusMax">
+        </div>
+      </div>
+      <div class="d-flex flex-row">
+        <button id="submit" class="btn btn-primary m-2">Submit</button>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+
+  $('#submit').click((e) => {
+    var maker = $('#makerSelect').val()
+    var name = $('#nameInput').val()
+    var apertureMax = $('#apertureMaxInput').val()
+    var apertureMin = $('#apertureMinInput').val()
+    var focusRangeMax = $('#focusMaxInput').val()
+    var focusRangeMin = $('#focusMinInput').val()
+
+    var data = {
+      maker,
+      name,
+      apertureMin,
+      apertureMax,
+      focusRangeMin,
+      focusRangeMax,
+    }
+    console.log(data)
+    $.ajax({
+      method: "POST",
+      url: '/add/lens',
+      data: data
+    }).done((xhr, textStatus, errorThrown) => {
+      console.log(xhr.message)
+    }).fail((result) => {
+      console.log(xhr.message)
+    })
+  })
+</script>
+
+</html>
