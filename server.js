@@ -9,8 +9,8 @@ const session = require("express-session");
 var path = require('path');
 
 
-const { setPassport, getPassport, isLoggedIn } = require("./src/auth/authentication");
-const { connect } = require("./src/db/db");
+const { setPassport, getPassport, isLoggedIn } = require("./src/lib/auth/authentication");
+const { connect } = require("./src/lib/db/db");
 const apiRouter = require("./src/router");
 
 // Etc.
