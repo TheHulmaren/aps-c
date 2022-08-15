@@ -37,7 +37,7 @@ SamplePhoto.prototype.uploadSamplePhoto = function (fileStream) {
 };
 
 SamplePhoto.prototype.findSamplePhotosByLens = function (strLid) {
-  var lid = ObjectId(strLid);
+  var lid = ObjectId(strLid)
 
   return new Promise((resolve, reject) => {
     getDb()
