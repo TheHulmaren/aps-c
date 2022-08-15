@@ -17,8 +17,5 @@ Article.prototype.addArticle = function (data) {
       });
   });
 };
-//test
-//asdasdas
-//asdasdsadadsads
 
 module.exports = Article
